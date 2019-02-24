@@ -75,15 +75,16 @@
                         alert('数据不能为空')
                         return
                     }
-                    $scope.students.push({name:addStudent.name,age:addStudent.age})
-                    $scope.addStudent.name = ''
-                    $scope.addStudent.age = ''
+                    $scope.students.push({name:addName,age:addAge})
+                    $scope.addName = ''
+                    $scope.addAge = ''
                     $scope.isNewBuilt = false
                 },
                 editSave: function(student,newName,newAge){
                     let index = $scope.students.indexOf(student)
                     $scope.students[index].name = newName?newName:student.name
                     $scope.students[index].age = newAge?newAge:student.age
+                    
                     $scope.isEdit = false
                 },
                 deleteStudent: function(student){
