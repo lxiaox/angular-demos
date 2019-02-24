@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>jiLIan-demo</title>
+    <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="myController">
+        <select ng-model="selectedCountry" 
+                ng-options="country.countryName for country in countries"
+                ng-change="changeToCity(selectedCountry)">
+            <option value="" selected>请选择国家</option>
+        </select>
+        <select>
+            <option value="" selected>请选择城市</option>
+            <option ng-repeat="city in selectedCountry.countryCities">{{city}}</option>
+        </select>
+        
+    </div>
+    <script>
+        angular.module('myApp',[]).controller('myController',function($scope){
+            $scope.countries = [
+                {countryName:'中国',countryCities:['北京','上海','深圳']},
+                {countryName:'法国',countryCities:['巴黎','里奥','马塞']},
+                {countryName:'美国',countryCities:['纽约','洛杉矶','华盛顿']}
+            ]
+            $scope.changeToCity = function(selectedCountry){
+                $scope.cities = selectedCountry.countryCities
+            }
+        })
+    </script>
+</body>
+</html>

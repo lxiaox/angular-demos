@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-han">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>demo-1</title>
+    <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+
+    <style>
+        .red{border-color: red;}
+        /* .green{border-color: green;} */
+        /* .blue{border-color: blue;} */
+        /* .hidden{border-style: hidden;} */
+    </style>
+</head>
+<body>
+    <div ng-app="">
+        <!-- <input type="text" ng-model="content" ng-class="{'red':content==='红'}"> -->
+        <input type="text" ng-model="content" ng-class="{true:'red'}[content==='红']" ng-hide="content === 'hidden'">
+        {{content}}
+        
+    <!-- <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl',function($scope){
+            $scope.content = 'acccccaa'
+        })
+    </script> -->       
+    </div>
+
+
+
+
+</body>
+</html>

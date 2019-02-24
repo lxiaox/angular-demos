@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>table-demo</title>
+    <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+    <style>
+        *{margin:0;padding:0;box-sizing: border-box;}
+        table{
+            border: 1px solid #80E6B5;
+            border-color: #80E6B5;
+            border-width: 0 1px 1px 0;
+        }
+        table th,table td{
+            border-width: 1px 0 0 1px;
+            border-style: solid;
+            border-color: #80E6B5;
+            width: 300px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="myController">
+        <input id="cb" type="checkbox" ng-model="isTableShow" ng-true-value="1">
+        <label for="cb">显示表格</label>
+        <table ng-show="isTableShow">
+            <caption>学生年龄表格</caption>
+            <tr>
+                <th>名字</th>
+                <th>年龄</th>
+                <th><button ng-click="isNewBuilt=true">新建</button></th>
+            </tr>
+            <!-- 显示行 -->
+            <tr ng-repeat="student in students">
+                <td ng-show="!isEdit">{{student.name}}</td>
+                <td ng-show="!isEdit">{{student.age}}</td>
+                <td ng-show="isEdit"><input type="text" ng-value="student.name" ng-model="newName"></td>
+                <td ng-show="isEdit"><input type="text" ng-value="student.age" ng-model="newAge"></td>
+                <td>
+                    <button ng-hide="isEdit" ng-click="isEdit=true">编辑</button>
+                    <button ng-show="isEdit" ng-click="options.editSave(student,newName,newAge)">保存</button>
+                    <button ng-show="isEdit" ng-click="isEdit=false">取消</button>
+                    <button ng-hide="isEdit" ng-click="options.moveUp(student)">↑</button>
+                    <button ng-hide="isEdit" ng-click="options.moveDown(student)">↓</button>
+                    <button ng-hide="isEdit" ng-click="options.deleteStudent(student)">删除</button>
+                </td>
+            </tr>
+            <!-- 新建行 -->
+            <tr ng-show="isNewBuilt">
+                <td><input type="text" ng-model="addName"></td>
+                <td><input type="text" ng-model="addAge"></td>
+                <td>
+                    <button ng-click="options.addStudent(addName,addAge)">添加</button>
+                    <button ng-click="isNewBuilt=false">取消</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        angular.module('myApp',[]).controller('myController',function($scope){
+            $scope.isTableShow = 1
+            $scope.isEdit = 0
+            $scope.students = [
+                {name:'赵',age:'16'},
+                {name:'钱',age:'18'},
+                {name:'孙',age:'15'}
+            ]
+            $scope.options = {
+                addStudent: function(addName,addAge){
+                    if(addName === undefined | addAge === undefined){
+                        alert('数据不能为空')
+                        return
+                    }
+                    $scope.students.push({name:addStudent.name,age:addStudent.age})
+                    $scope.addStudent.name = ''
+                    $scope.addStudent.age = ''
+                    $scope.isNewBuilt = false
+                },
+                editSave: function(student,newName,newAge){
+                    let index = $scope.students.indexOf(student)
+                    $scope.students[index].name = newName?newName:student.name
+                    $scope.students[index].age = newAge?newAge:student.age
+                    $scope.isEdit = false
+                },
+                deleteStudent: function(student){
+                    let index = $scope.students.indexOf(student)
+                    $scope.students.splice(index,1)
+                },
+                moveUp: function(student){
+                    let index = $scope.students.indexOf(student)
+                    if(index === 0) {
+                        alert('已经是第一行!')
+                    }else{
+                        [$scope.students[index-1],$scope.students[index]] = [student,$scope.students[index-1]]
+                    }
+                    
+                },
+                moveDown: function(student){
+                    let index = $scope.students.indexOf(student)
+                    if(index === $scope.students.length - 1) {
+                        alert('已经是最后一行!')
+                    }else{
+                        [$scope.students[index+1],$scope.students[index]] = [student,$scope.students[index+1]]
+                    }
+                },
+            }
+            
+        })
+    </script>
+</body>
+</html>
